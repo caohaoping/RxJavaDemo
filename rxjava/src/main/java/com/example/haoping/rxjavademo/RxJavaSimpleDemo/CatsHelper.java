@@ -16,13 +16,13 @@ public class CatsHelper {
 
     public AsyncJob<Uri> saveTheCutestCat(final String query){
         AsyncJob<List<Cat>> catsListAsyncJob = apiWrapper.queryCats(query);
-        AsyncJob<Cat> cutestAsyncJob = catsListAsyncJob.map(new Func<List<Cat>, Cat>() {
+        AsyncJob<Cat> cutestAsyncJob = catsListAsyncJob.map(new Func1<List<Cat>, Cat>() {
             @Override
             public Cat call(List<Cat> cats) {
                 return findCutest(cats);
             }
         });
-        AsyncJob<Uri> saveUriAsyncJob = cutestAsyncJob.flatMap(new Func<Cat, AsyncJob<Uri>>() {
+        AsyncJob<Uri> saveUriAsyncJob = cutestAsyncJob.flatMap(new Func1<Cat, AsyncJob<Uri>>() {
             @Override
             public AsyncJob<Uri> call(Cat cat) {
                 return apiWrapper.save(cat);

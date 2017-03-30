@@ -10,7 +10,7 @@ public abstract class AsyncJob<T> {
 
     public abstract void start(CallBack<T> callBack);
 
-    public <R> AsyncJob<R> map(final Func<T, R> func){
+    public <R> AsyncJob<R> map(final Func1<T, R> func){
         final AsyncJob<T> source = this;
         return new AsyncJob<R>() {
             @Override
@@ -31,7 +31,7 @@ public abstract class AsyncJob<T> {
         };
     }
 
-    public <R> AsyncJob<R> flatMap(final Func<T, AsyncJob<R>> func){
+    public <R> AsyncJob<R> flatMap(final Func1<T, AsyncJob<R>> func){
         final AsyncJob<T> source = this;
         return new AsyncJob<R>() {
             @Override
@@ -60,6 +60,39 @@ public abstract class AsyncJob<T> {
                 });
             }
         };
+    }
+
+
+    public static  <T, R> FuncN<R> fromFunc1(final Func1<T, R> f){
+        return new FuncN<R>() {
+
+            @Override
+            public R call(Object... args) {
+                return f.call((T)args[0]);
+            }
+
+        };
+    }
+
+    public static <T0, R> FuncN<R> fromFunc(final Func1<? super T0, ? extends R> f) {
+
+        FuncN<Integer> integerFuncN = fromFunc1(new Func1<String, Integer>() {
+            @Override
+            public Integer call(String s) {
+                return Integer.getInteger(s);
+            }
+        });
+
+        return new FuncN<R>() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public R call(Object... args) {
+                return f.call((T0) args[0]);
+            }
+
+        };
+
     }
 
 }

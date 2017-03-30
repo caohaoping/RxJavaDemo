@@ -13,7 +13,7 @@ public class Main {
         CatsHelper catsHelper = new CatsHelper();
         // AsyncJob == Observable
         AsyncJob<Uri> asyncJob = catsHelper.saveTheCutestCat("tom");
-        // .start() == .subscribe() && CallBack == Subscriber
+        // .start() == .subscribe() && CallBack == Subscriber/Observer
         asyncJob.start(new CallBack<Uri>() {
             @Override
             public void onResult(Uri result) {
