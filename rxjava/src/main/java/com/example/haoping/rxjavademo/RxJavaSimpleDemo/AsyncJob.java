@@ -63,7 +63,7 @@ public abstract class AsyncJob<T> {
     }
 
 
-    public static  <T, R> FuncN<R> fromFunc1(final Func1<T, R> f){
+    public static <T, R> FuncN<R> fromFunc1(final Func1<T, R> f){
         return new FuncN<R>() {
 
             @Override
