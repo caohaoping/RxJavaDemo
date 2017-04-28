@@ -1,6 +1,10 @@
 package cn.iome.rxjava2.rxDemo;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -76,6 +80,33 @@ public class RxJack6 {
             @Override
             public String call() throws Exception {
                 return "hello";
+            }
+        });
+
+        Flowable.fromFuture(new Future<String>() {
+            @Override
+            public boolean cancel(boolean mayInterruptIfRunning) {
+                return false;
+            }
+
+            @Override
+            public boolean isCancelled() {
+                return false;
+            }
+
+            @Override
+            public boolean isDone() {
+                return false;
+            }
+
+            @Override
+            public String get() throws InterruptedException, ExecutionException {
+                return null;
+            }
+
+            @Override
+            public String get(long timeout, @android.support.annotation.NonNull TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+                return null;
             }
         });
 
